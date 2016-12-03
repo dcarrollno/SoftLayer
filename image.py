@@ -31,14 +31,14 @@ class GetImgList(ImageConnector):
 
     def getPriImgList(self):
 
-       result = self.mgr.list_private_images()
-       pp.pprint(result)
+        result = self.mgr.list_private_images()
+        pp.pprint(result)
 
     def getPubImgList(self):
-       ''' This is a list of OS images by SL '''
+        ''' This is a list of OS images by SL '''
    
-       result = self.mgr.list_public_images()
-       pp.pprint(result)
+        result = self.mgr.list_public_images()
+        pp.pprint(result)
 
 
 class GetImageInfo(ImageConnector):

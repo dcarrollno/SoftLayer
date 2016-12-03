@@ -7,7 +7,7 @@
     Dave C. 2016
 
     See examples within each class below.
-  
+
     The idea behind this would be to potentially allow QA or others 
     some manual control over VM power state, without giving away
     the keys to the kingdom and having them hang the company.  
@@ -27,7 +27,7 @@ class VmConnector(object):
         client connection to SoftLayer '''
 
     def __init__(self):
-    
+
         self.client = config.client
         self.mgr = SoftLayer.VSManager(self.client)
 
@@ -95,28 +95,28 @@ class VmPowerOff(VmConnector):
 
     def vm_poweroff(self):
 
- 	try:
-    	    # Get all virtual guests that the account has:
-    	    virtualGuests = self.client['SoftLayer_Account'].getVirtualGuests()
+        try:
+            # Get all virtual guests that the account has:
+            virtualGuests = self.client['SoftLayer_Account'].getVirtualGuests()
 
-	except SoftLayer.SoftLayerAPIError as e:
-	    print("Unable to retrieve virtual list")
+        except SoftLayer.SoftLayerAPIError as e:
+            print("Unable to retrieve virtual list")
 
 
-	# Looking for the virtual guest
-	self.virtualGuestId = ''
-	for virtualGuest in virtualGuests:
-    	    if virtualGuest['hostname'] == self.virtualGuestName:
+        # Looking for the virtual guest
+        self.virtualGuestId = ''
+        for virtualGuest in virtualGuests:
+            if virtualGuest['hostname'] == self.virtualGuestName:
                 self.virtualGuestId = virtualGuest['id']
-		print("VM name is %s and id is %s" % (self.virtualGuestName,self.virtualGuestId))
+                print("VM name is %s and id is %s" % (self.virtualGuestName,self.virtualGuestId))
 
         try:
             # Power off the virtual guest
             virtualMachines = self.client['SoftLayer_Virtual_Guest'].powerOff(id=self.virtualGuestId)
-    	    print ("%s powered off" % self.virtualGuestName)
+            print ("%s powered off" % self.virtualGuestName)
 
-	except SoftLayer.SoftLayerAPIError as e:
-	    print("unable to power off %s" % self.virtualGuestName)
+        except SoftLayer.SoftLayerAPIError as e:
+            print("unable to power off %s" % self.virtualGuestName)
 
 
 class VmReboot(VmConnector):
@@ -132,7 +132,7 @@ class VmReboot(VmConnector):
     def __init__(self,virtualGuestName):
 
         VmConnector.__init__(self)
-	self.virtualGuestName = virtualGuestName
+        self.virtualGuestName = virtualGuestName
 
 
     def vm_reboot(self):
@@ -153,7 +153,7 @@ class VmReboot(VmConnector):
 
 
         # Reboot the Virtual Guest
-	try:
+        try:
 
             result = self.client['Virtual_Guest'].rebootDefault(id=self.virtualGuestId)
             pp(result)
@@ -226,7 +226,7 @@ class VmStatus(VmConnector):
             undergoing operations '''
 
         self.vmId = vmId
-     
+
         while True:
             if self.mgr.wait_for_transaction(self.vmId, 30) == True:
                 print("Server with ID %s is ready" % self.vmId)
@@ -260,43 +260,43 @@ class VmOrderVerify(VmConnector):
         '''
 
     def __init__(self,vmName,vmType):
-        
+
         VmConnector.__init__(self)
         self.mgr = SoftLayer.VSManager(self.client)
         self.vmName = vmName
         self.vmType = vmType
 
         self.webapp_vsi = {
-                'domain': 'nanigans.com',
-                'hostname': self.vmName,
-                'datacenter': 'dal10',
-                'dedicated': False,
-                'private': True,
-                'cpus': 1,
-                'os_code' : 'CentOS_6_64',
-                'hourly': True,
-                'ssh_keys': [1234],
-                'disks': ('100','25'),
-                'local_disk': True,
-                'memory': 4096,
-                'tags': 'demo VM'
-            }
+            'domain': 'nanigans.com',
+            'hostname': self.vmName,
+            'datacenter': 'dal10',
+            'dedicated': False,
+            'private': True,
+            'cpus': 1,
+            'os_code' : 'CentOS_6_64',
+            'hourly': True,
+            'ssh_keys': [1234],
+            'disks': ('100','25'),
+            'local_disk': True,
+            'memory': 4096,
+            'tags': 'demo VM'
+        }
 
         self.minimal_vsi = {
-                'domain': 'nanigans.com',
-                'hostname': self.vmName,
-                'datacenter': 'dal10',
-                'dedicated': False,
-                'private': True,
-                'cpus': 1,
-                'os_code' : 'CentOS_6_64',
-                'hourly': True,
-                'ssh_keys': [1234],
-                'disks': ('100','25'),
-                'local_disk': True,
-                'memory': 1024,
-                'tags': 'Minimal VM for demo'
-            }
+            'domain': 'nanigans.com',
+            'hostname': self.vmName,
+            'datacenter': 'dal10',
+            'dedicated': False,
+            'private': True,
+            'cpus': 1,
+            'os_code' : 'CentOS_6_64',
+            'hourly': True,
+            'ssh_keys': [1234],
+            'disks': ('100','25'),
+            'local_disk': True,
+            'memory': 1024,
+            'tags': 'Minimal VM for demo'
+        }
 
         if self.vmType == 'webapp':
             myVsi = self.mgr.verify_create_instance(**self.webapp_vsi)
@@ -323,36 +323,36 @@ class VmOrder(VmConnector):
         self.vmType = vmType
 
         self.webapp_vsi = {
-                'domain': 'nanigans.com',
-                'hostname': vmName,
-                'datacenter': 'dal10',
-                'dedicated': False,
-                'private': True,
-                'cpus': 1,
-                'os_code' : 'CentOS_6_64',
-                'hourly': True,
-                'ssh_keys': [1234],
-                'disks': ('100','25'),
-                'local_disk': True,
-                'memory': 4096,
-                'tags': 'Nanigans WebApp VM'
-            }
+            'domain': 'nanigans.com',
+            'hostname': vmName,
+            'datacenter': 'dal10',
+            'dedicated': False,
+            'private': True,
+            'cpus': 1,
+            'os_code' : 'CentOS_6_64',
+            'hourly': True,
+            'ssh_keys': [1234],
+            'disks': ('100','25'),
+            'local_disk': True,
+            'memory': 4096,
+            'tags': 'Nanigans WebApp VM'
+        }
 
         self.minimal_vsi = {
-                'domain': 'nanigans.com',
-                'hostname': vmName,
-                'datacenter': 'dal10',
-                'dedicated': False,
-                'private': True,
-                'cpus': 1,
-                'os_code' : 'CentOS_6_64',
-                'hourly': True,
-                'ssh_keys': [1234],
-                'disks': ('100','25'),
-                'local_disk': True,
-                'memory': 1024,
-                'tags': 'Nanigans Minimal VM'
-            }
+            'domain': 'nanigans.com',
+            'hostname': vmName,
+            'datacenter': 'dal10',
+            'dedicated': False,
+            'private': True,
+            'cpus': 1,
+            'os_code' : 'CentOS_6_64',
+            'hourly': True,
+            'ssh_keys': [1234],
+            'disks': ('100','25'),
+            'local_disk': True,
+            'memory': 1024,
+            'tags': 'Nanigans Minimal VM'
+        }
 
 
         if self.vmType == 'webapp':
@@ -372,7 +372,7 @@ class VmCancel(VmConnector):
         myCancel = VmCancel()	# instantiate 
         myResult = myCancel.cancelVm('vm-demo')     # cancel vm-demo
         A ticket will be created at SL if no errors '''
-    
+
 
     def __init__(self):
         VmConnector.__init__(self)
@@ -384,19 +384,20 @@ class VmCancel(VmConnector):
             and cancel by id '''
 
         self.vmname = vmname
-   
+
         myVm = VmStatus(self.vmname)
         myVmId = myVm.vm_status()
         print("The SL ID is %s" % myVmId)
         myVmId = int(myVmId)        
         self.mgr.cancel_instance(myVmId) 
 
+
 class VmReload(VmConnector):
     ''' Class to reload an instance with OS 
         Example:
 
     '''
-    
+
     def __init__(self,vmName):
 
         self.vmName = vmName
@@ -411,7 +412,7 @@ class VmReload(VmConnector):
         myVmId = myVm.vm_status() 
         myVmId = int(myVmId)
         vsi = self.mgr.reload_instance(myVmId)     
-        
+
         myVm.vm_monitor(myVmId)
 
 

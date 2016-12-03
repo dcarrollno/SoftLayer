@@ -1,6 +1,12 @@
-
 Code Snippets and Reference for SoftLayer API
 
+This is a collection of methods or snippets for working with
+the SoftLayer API.  I may call these for specific actions
+or string them together in the scope of accomplishing
+some form of automation around SoftLayer operations.  
+
 Feel free to borrow anything you see here. Use at your own risk.
+
+These examples may help others.
 
 - Dave C. dcarrollno@gmail.com   dcarroll@nanigans.com
