@@ -34,6 +34,7 @@ class GetImgList(ImageConnector):
         result = self.mgr.list_private_images()
         pp.pprint(result)
 
+
     def getPubImgList(self):
         ''' This is a list of OS images by SL '''
    
@@ -74,12 +75,10 @@ if __name__ == '__main__':
     # Examples
    
     # Get Private Image List
-    #res = GetImgList()
-    #ret = res.getPriImgList()
+    #res = GetImgList().getPriImgList()
    
     # Get Public Image List - OS images by SL
-    #res = GetImgList()
-    #ret = res.getPubImgList()
+    #res = GetImgList().getPubImgList()
 
     # Get Image Info on Specific Image by id
     #res = GetImageInfo(1343957)    # or res = GetImageInfo('vm-demo')
